@@ -9,4 +9,10 @@ Rake::TestTask.new(:test) do |t|
   t.test_files = FileList['test/**/*_test.rb']
 end
 
+Rake::TestTask.new(:bench) do |test|
+  test.libs << 'lib' << 'test'
+  test.pattern = 'test/bench.rb'
+  test.verbose = false
+end
+
 task default: :test

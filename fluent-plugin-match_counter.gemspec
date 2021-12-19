@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name          = 'fluentd-plugin-match_counter'
-  spec.version       = '0.0.0'
+  spec.version       = '0.0.1'
   spec.authors       = ['Joshua Mervine']
   spec.email         = ['jmervine@users.noreply.github.com']
 

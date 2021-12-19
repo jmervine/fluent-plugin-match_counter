@@ -41,8 +41,7 @@ module Fluent
         <match_counter>
           matcher   foo
           regexp    false
-          event_key bar
-          count_key foobar
+          count_key "${tag}.foobar"
         </match_counter>
         ])
         e = [
@@ -53,8 +52,8 @@ module Fluent
         f = filter(e, c)
 
         expected = [
-          { foo: 1 },
-          { bar: 1, foobar: 1 }
+          { foo: 1, :"test.foobar" => 1 },
+          { bar: 1, :"test.foobar" => 1 }
         ]
 
         assert_equal(expected, f)
