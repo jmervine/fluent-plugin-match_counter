@@ -1,7 +1,7 @@
 # fluent-plugin-match_counter
 
 [![Gem Version](https://badge.fury.io/rb/fluentd-plugin-match_counter.svg)](https://badge.fury.io/rb/fluentd-plugin-match_counter)
-[![Github Actions](https://github.com/jmervine/fluent-plugin-match_counter/actions/workflows/ruby.yml/badge.svg)](https://github.com/jmervine/fluent-plugin-match_counter/actions/workflows/ruby.yml)
+[![Github Actions: master](https://github.com/jmervine/fluent-plugin-match_counter/actions/workflows/ruby.yml/badge.svg??branch=master)](https://github.com/jmervine/fluent-plugin-match_counter/actions/workflows/ruby.yml)
 
 A simple FluentD Filter plugin to match events and create a counter for them.
 
