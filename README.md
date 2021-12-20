@@ -1,6 +1,6 @@
 # fluent-plugin-match_counter
 
-[![Gem Version](https://badge.fury.io/rb/fluentd-plugin-match_counter.svg)](https://badge.fury.io/rb/fluentd-plugin-match_counter)
+[![Gem Version](https://badge.fury.io/rb/fluent-plugin-match_counter.svg)](https://badge.fury.io/rb/fluent-plugin-match_counter)
 [![Github Actions: master](https://github.com/jmervine/fluent-plugin-match_counter/actions/workflows/ruby.yml/badge.svg??branch=master)](https://github.com/jmervine/fluent-plugin-match_counter/actions/workflows/ruby.yml)
 
 A simple FluentD Filter plugin to match events and create a counter for them.
@@ -10,7 +10,7 @@ A simple FluentD Filter plugin to match events and create a counter for them.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'fluentd-plugin-match_counter'
+gem 'fluent-plugin-match_counter'
 ```
 
 And then execute:
@@ -19,7 +19,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install fluentd-plugin-match_counter
+    $ gem install fluent-plugin-match_counter
 
 ## Configuration
 
@@ -163,4 +163,4 @@ Finished in 110.13594 seconds.
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at
-https://github.com/jmervine/fluentd-plugin-match_counter.
+https://github.com/jmervine/fluent-plugin-match_counter.
