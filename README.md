@@ -1,5 +1,7 @@
 # fluent-plugin-match_counter
 
+[![Gem Version](https://badge.fury.io/rb/fluentd-plugin-match_counter.svg)](https://badge.fury.io/rb/fluentd-plugin-match_counter)
+
 A simple FluentD Filter plugin to match events and create a counter for them.
 
 ## Installation
@@ -18,14 +20,31 @@ Or install it yourself as:
 
     $ gem install fluentd-plugin-match_counter
 
+## Configuration
+
+Each of the following params should be contained within one or many
+`match_counter` sections. For each section, the plugin will attempt to match
+and emit a counter per the configurations in that section. See example
+configuration below.
+
+
+| param       | type   | required? | default | desc                                                                                                                                |
+| ---         | ---    | ---       | ---     | ---                                                                                                                                 |
+| `matcher`   | string | yes       | n/a     | The string or regex to be matched                                                                                                   |
+| `event_key` | string | no        | `nil`   | If defined, the field within the top level event to match against. If `nil`, then the entire event will be stringified and checked. |
+| `name`      | string | yes       | n/a     | The counter name to be included as part of the output                                                                               |
+| `regexp`    | bool   | no        | `true`  | Use RegExp matching, if false, the an simple string match will be used                                                              |
+| `type`      | string | no        | `nil`   | If present, include a type field in the output with the set value                                                                   |
+| `fields`    | hash   | no        | `nil`   | Hash of fields to merged in the output hash                                                                                         |
+
 ### Example Configuration
 
 ```
 <source>
-  @type tail
-  path dummy.log
-  tag dummy
-  format json
+    @type tail
+    path dummy.log
+    tag dummy
+    format json
 </source>
 
 <match dummy>
@@ -72,22 +91,30 @@ Or install it yourself as:
 
 With record:
 ```
-{ foo: 'message foo' }
+[ "some_tag", 1640022113, { message: 'message foo' }]
 ```
 
 With configuration:
 ```
 <match_counter>
-  matcher foo
-  event_key foo
-  name "foo.count"
+  matcher "^.+ foo$"
+  event_key message
+  name "${tag}.foo.count"
   type count
+  fields {"attributes":{"host.name":"localhost"}}
 </match_counter>
 ```
 
-Outputs:
+Output:
 ```
-{ name: "foo.count", type: "count", value: 1 }
+{
+    name: "some_tag.foo.count",
+    type: "count",
+    value: 1,
+    "attributes" => {
+        "host.name":"localhost"
+    }
+}
 ```
 
 ## Development
