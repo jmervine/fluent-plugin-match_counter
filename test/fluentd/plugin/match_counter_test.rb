@@ -17,11 +17,13 @@ module Fluent
           <match_counter>
             matcher foo
             event_key foo
-            count_key foo
+
+            name foo
           </match_counter>
           <match_counter>
             event_key foo
-            count_key foo
+
+            name foo
           </match_counter>
           ])
         end
@@ -39,9 +41,9 @@ module Fluent
       test :simple_matches do
         c = config(%[
         <match_counter>
-          matcher   foo
-          regexp    false
-          count_key "${tag}.foobar"
+          matcher foo
+          regexp false
+          name "${tag}.foobar"
         </match_counter>
         ])
         e = [
@@ -51,12 +53,46 @@ module Fluent
 
         f = filter(e, c)
 
-        expected = [
-          { foo: 1, :"test.foobar" => 1 },
-          { bar: 1, :"test.foobar" => 1 }
-        ]
+        expected = [[
+          {name: "foo", type: "count", value: 1},
+          {name: "test.foobar", value: 1}
+        ],[
+          {name: "bar", value: 1},
+          {name: "test.foobar", value: 1}
+        ]]
 
         assert_equal(expected, f)
+      end
+
+      test :with_fields do
+        c = %[
+        <match_counter>
+          matcher with_fields
+          regexp false
+          event_key message
+          name "with.fields"
+          type counter
+          fields {"attributes":{"host.name":"localhost"}}
+        </match_counter>
+        ]
+        e = [
+          { message: 'message with_fields to be merged' }
+        ]
+
+        f = filter(e, c)
+
+        expected = [
+          {
+            name: "with.fields",
+            value: 1,
+            type: "counter",
+            "attributes" => {
+              "host.name" => "localhost"
+            }
+          }
+        ]
+
+        assert_equal(expected, f.first)
       end
     end
   end

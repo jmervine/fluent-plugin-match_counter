@@ -50,12 +50,13 @@ Or install it yourself as:
         <match_counter>
             matcher foo
             event_key message
-            count_key "${tag}.foo.counter"
+            name "${tag}.foo.counter"
+            type count
         </match_counter>
         <match_counter>
             matcher bar
             event_key message
-            count_key "${tag}.bar.counter"
+            name "${tag}.bar.counter"
         </match_counter>
     </filter>
     <match>
@@ -79,13 +80,14 @@ With configuration:
 <match_counter>
   matcher foo
   event_key foo
-  count_key "foo.count"
+  name "foo.count"
+  type count
 </match_counter>
 ```
 
 Outputs:
 ```
-{ :"foo.count" => 1 }
+{ name: "foo.count", type: "count", value: 1 }
 ```
 
 ## Development
@@ -107,19 +109,27 @@ bundle exec rake bench
 Benchmark w/ 100 events per payload for 20 seconds
  - Reports payloads per second
 Warming up --------------------------------------
-                all:    57.000  i/100ms
-              50/50:    60.000  i/100ms
+                all:    55.000  i/100ms
+              50/50:    57.000  i/100ms
        50/50 w/ tag:    54.000  i/100ms
-               none:    77.000  i/100ms
+               none:    65.000  i/100ms
                 one:    74.000  i/100ms
 Calculating -------------------------------------
-                all:    558.298  (± 5.2%) i/s -     11.172k in  20.069121s
-              50/50:    578.784  (± 5.0%) i/s -     11.580k in  20.060673s
-       50/50 w/ tag:    530.287  (± 5.1%) i/s -     10.584k in  20.014558s
-               none:    763.879  (± 4.5%) i/s -     15.246k in  20.000892s
-                one:    750.439  (± 5.2%) i/s -     15.022k in  20.076956s
+                all:    534.709  (± 5.6%) i/s -     10.670k in  20.023768s
+              50/50:    558.507  (± 5.7%) i/s -     11.172k in  20.074369s
+       50/50 w/ tag:    556.929  (± 5.4%) i/s -     11.124k in  20.036188s
+               none:    721.776  (± 5.5%) i/s -     14.430k in  20.058260s
+                one:    718.533  (± 5.6%) i/s -     14.356k in  20.050440s
+
+Comparison:
+               none::      721.8 i/s
+                one::      718.5 i/s - same-ish: difference falls within error
+              50/50::      558.5 i/s - 1.29x  (± 0.00) slower
+       50/50 w/ tag::      556.9 i/s - 1.30x  (± 0.00) slower
+                all::      534.7 i/s - 1.35x  (± 0.00) slower
+
 .
-Finished in 110.255193 seconds.
+Finished in 110.13594 seconds.
 ```
 
 ## Contributing

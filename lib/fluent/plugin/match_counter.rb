@@ -11,8 +11,8 @@ module Fluent
       desc 'Pattern to be matched'
       config_param :matcher, :string
 
-      desc 'Count key, for counter output, "${tag}" will be replaced with record tag'
-      config_param :count_key, :string
+      desc 'Name for counter output, "${tag}" will be replaced with record tag'
+      config_param :name, :string
 
       # OPTIONAL
       desc 'Input key, where match event is contained; if unset, then search entire event'
@@ -20,6 +20,12 @@ module Fluent
 
       desc 'Use RegExp to match value'
       config_param :regexp, :bool, default: true
+
+      desc 'Metric type passed to output'
+      config_param :type, :string, default: nil
+
+      desc 'Fields to be merged'
+      config_param :fields, :hash, default: nil
     end
 
     def configure(conf)
@@ -27,7 +33,7 @@ module Fluent
     end
 
     def filter(tag, time, record)
-      out = {}
+      out = []
       @match_counter.each do |mc|
         str = \
           begin
@@ -42,10 +48,17 @@ module Fluent
         if !!((mc[:regexp] && Regexp.new(mc[:matcher]).match(str)) || \
           str.include?(mc[:matcher]))
 
-          ck = mc[:count_key].clone
-          ck.gsub!('${tag}', tag) if ck.include?('${tag}')
+          name = mc[:name].clone
+          name.gsub!('${tag}', tag) if name.include?('${tag}')
 
-          out.merge!(ck.to_sym => 1)
+          met = {
+            name: name,
+            value: 1
+          }
+          met[:type] = mc[:type] unless mc[:type].nil?
+          met.merge!(mc[:fields]) unless mc[:fields].nil?
+
+          out << met
         end
       end
 

@@ -38,15 +38,16 @@ class Fluent::MatchCounterTestHelper < Test::Unit::TestCase
   def config(s = '')
     %[
       <match_counter>
-        matcher   "^message.+foo.+$"
+        matcher "^message.+foo.+$"
         event_key foo
-        count_key foo
+        name foo
+        type count
       </match_counter>
       <match_counter>
-        matcher   bar
-        regexp    false
+        matcher bar
+        regexp false
         event_key bar
-        count_key bar
+        name bar
       </match_counter>
     ] + s
   end

@@ -46,7 +46,7 @@ module Fluent
         x.report('none:')  { filter(@e3, config) }
         x.report('one:')   { filter(@e4, config) }
 
-        #x.compare!
+        x.compare!
       end
     end
   end
