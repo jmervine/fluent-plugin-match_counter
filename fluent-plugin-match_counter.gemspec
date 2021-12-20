@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Gem::Specification.new do |spec|
-  spec.name          = 'fluentd-plugin-match_counter'
+  spec.name          = 'fluent-plugin-match_counter'
   spec.version       = '0.0.1'
   spec.authors       = ['Joshua Mervine']
   spec.email         = ['jmervine@users.noreply.github.com']
